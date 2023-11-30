@@ -80,3 +80,5 @@ export const updateNewPasswordParams = [
   body("otp").notEmpty().isString(),
   body("newPassword").notEmpty().isString(),
 ];
+
+export const refreshTokenParams = [body("refreshToken").notEmpty().isString()];

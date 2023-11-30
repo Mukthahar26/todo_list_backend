@@ -43,8 +43,8 @@ export const registrationController = (req: Request, res: Response) => {
         }
       })
       .catch((err) => {
-        const { code } = responseCodes.ERROR;
-        res.json(formatResponse({ code, message: err }));
+        const { code, message } = responseCodes.ERROR;
+        res.json(formatResponse({ code, message, data: err }));
       });
   } else {
     const { code, message } = responseCodes.PASSWORDNOTMATCHED;
@@ -62,22 +62,27 @@ export const loginController = (req: Request, res: Response) => {
   };
   userDetailsModel
     .findOne({ email })
-    .then((data) => {
-      if (data) {
-        const compare = bcryptjs.compareSync(password, data.password);
+    .then((result) => {
+      if (result) {
+        const { password: dbPassword, ...data } = result.toObject();
+        const compare = bcryptjs.compareSync(password, dbPassword);
         if (compare) {
-          const { message, code } = responseCodes.SUCCESS;
-          let token = jsonwebtoken.sign(data.toObject(), "secret", {
+          let token = jsonwebtoken.sign(data, "secret", {
             expiresIn: process.env.AUTHTOKENLIFESPAN,
           });
-          let refreshToken = jsonwebtoken.sign({ name: data.email }, "secret", {
-            expiresIn: process.env.REFRESHTOKENSPAN,
-          });
+          let refreshToken = jsonwebtoken.sign(
+            { email: data.email },
+            "secret",
+            {
+              expiresIn: process.env.REFRESHTOKENSPAN,
+            }
+          );
+          const { message, code } = responseCodes.SUCCESS;
           res.json(
             formatResponse({
               code,
               message,
-              data: { ...data.toObject(), token, refreshToken },
+              data: { ...data, token, refreshToken },
             })
           );
         } else notFound();
@@ -112,13 +117,67 @@ export const updateUserDetails = (req: Request, res: Response) => {
 export const deleteUser = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, email } = req.body;
-  userDetailsModel.findOneAndDelete({ user_id, email }).then((result) => {
-    if (result) {
-      const { code, message } = responseCodes.DELETED;
-      res.json(formatResponse({ code, message, data: result }));
-    } else {
-      const { code, message } = responseCodes.NORECORDSFOUND;
-      res.json(formatResponse({ code, message }));
-    }
-  });
+  userDetailsModel
+    .findOneAndDelete({ user_id, email })
+    .then((result) => {
+      if (result) {
+        const { code, message } = responseCodes.DELETED;
+        res.json(formatResponse({ code, message, data: result }));
+      } else {
+        const { code, message } = responseCodes.NORECORDSFOUND;
+        res.json(formatResponse({ code, message }));
+      }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
+    });
+};
+
+export const refreshTokenDetails = (req: Request, res: Response) => {
+  const { refreshToken } = req.body;
+  const userData = jsonwebtoken.verify(refreshToken, "secret") || ({} as any);
+  const { email } = userData;
+  userDetailsModel
+    .findOne({ email })
+    .then((result) => {
+      if (result) {
+        const { password: dbPassword, ...data } = result.toObject();
+        let token = jsonwebtoken.sign(data, "secret", {
+          expiresIn: process.env.AUTHTOKENLIFESPAN,
+        });
+        const { message, code } = responseCodes.SUCCESS;
+        res.json(
+          formatResponse({
+            code,
+            message,
+            data: { ...data, token, refreshToken },
+          })
+        );
+      } else {
+        const { message, code } = responseCodes.NORECORDSFOUND;
+        res.json(
+          formatResponse({
+            code,
+            message,
+          })
+        );
+      }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
+    });
 };

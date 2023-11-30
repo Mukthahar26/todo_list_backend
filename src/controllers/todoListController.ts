@@ -72,21 +72,43 @@ export const getAllTodoList = (req: Request, res: Response) => {
         const { code, message } = responseCodes.SUCCESS;
         res.json(formatResponse({ code, message, data: data }));
       }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
     });
 };
 
 export const deleteTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, postId } = req.body;
-  todoListModel.findOneAndDelete({ user_id, id: postId }).then((result) => {
-    if (result) {
-      const { code, message } = responseCodes.DELETED;
-      res.json(formatResponse({ code, message, data: result }));
-    } else {
-      const { code, message } = responseCodes.NORECORDSFOUND;
-      res.json(formatResponse({ code, message }));
-    }
-  });
+  todoListModel
+    .findOneAndDelete({ user_id, id: postId })
+    .then((result) => {
+      if (result) {
+        const { code, message } = responseCodes.DELETED;
+        res.json(formatResponse({ code, message, data: result }));
+      } else {
+        const { code, message } = responseCodes.NORECORDSFOUND;
+        res.json(formatResponse({ code, message }));
+      }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
+    });
 };
 
 export const updateTodoList = (req: Request, res: Response) => {
@@ -114,6 +136,16 @@ export const updateTodoList = (req: Request, res: Response) => {
         const { code, message } = responseCodes.NORECORDSFOUND;
         res.json(formatResponse({ code, message }));
       }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
     });
 };
 
@@ -136,5 +168,15 @@ export const markAsCompletedTodoList = (req: Request, res: Response) => {
         const { code, message } = responseCodes.NORECORDSFOUND;
         res.json(formatResponse({ code, message }));
       }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
     });
 };

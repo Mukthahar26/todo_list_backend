@@ -95,5 +95,15 @@ export const updateNewPassword = (req: Request, res: Response) => {
         const { code } = responseCodes.NORECORDSFOUND;
         res.json(formatResponse({ code, message: "OTP expired" }));
       }
+    })
+    .catch((error) => {
+      const { message, code } = responseCodes.ERROR;
+      res.json(
+        formatResponse({
+          code,
+          message,
+          data: error,
+        })
+      );
     });
 };

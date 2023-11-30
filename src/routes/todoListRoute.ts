@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Request, Response, Router } from "express";
 import {
   createTodoListParams,
   deleteUserParams,
@@ -13,11 +13,22 @@ import {
   markAsCompletedTodoList,
   updateTodoList,
 } from "../controllers/todoListController.ts";
+import jsonwebtoken from "jsonwebtoken";
 
 const todoListrouter = Router();
 
-todoListrouter.use((__, _, next) => {
-  next();
+todoListrouter.use((req: Request | any, res: Response, next) => {
+  const jwt_token = req.headers.authorization;
+  if (!jwt_token) {
+    return res.status(401).json({ error: "Unauthorized: Token missing" });
+  }
+  try {
+    const userData = jsonwebtoken.verify(jwt_token, "secret");
+    req["userDetails"] = userData;
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: "Unauthorized: Invalid token" });
+  }
 });
 todoListrouter.post("/createtodolist", createTodoListParams, createTodoList);
 todoListrouter.get("/getalltodolist", getTodoListParams, getAllTodoList);
