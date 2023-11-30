@@ -25,9 +25,9 @@ export const createTodoList = (req: Request, res: Response) => {
     });
     todoList
       .save()
-      .then(() => {
+      .then((data) => {
         const { code, message } = responseCodes.SUCCESS;
-        res.json(formatResponse({ code, message }));
+        res.json(formatResponse({ code, message, data }));
       })
       .catch((err) => {
         const { code } = responseCodes.ERROR;
