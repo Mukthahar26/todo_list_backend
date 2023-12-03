@@ -7,6 +7,7 @@ import {
 import todoListModel from "../models/todoListModel";
 import { v4 } from "uuid";
 import { responseCodes } from "../constants/constants";
+import logger from "../utils/logger";
 
 export const createTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
@@ -61,10 +62,12 @@ export const getAllTodoList = (req: Request, res: Response) => {
   if (status) params["status"] = status;
   if (priority) params["priority"] = priority;
   if (search) params["title"] = { $regex: new RegExp(search, "i") };
+  logger.info("getAllTodoList API :", params);
   todoListModel
     .find(params, null, { skip: offset, limit })
     .sort({ end_at: sort === "asc" ? 1 : -1 })
     .then((data) => {
+      logger.info("getAllTodoList API todoListModel data :", data);
       if (data.length === 0) {
         const { code, message } = responseCodes.NORECORDSFOUND;
         res.json(formatResponse({ code, message }));
@@ -87,9 +90,9 @@ export const getAllTodoList = (req: Request, res: Response) => {
 
 export const deleteTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
-  const { user_id, postId } = req.body;
+  const { user_id, todolistid } = req.body;
   todoListModel
-    .findOneAndDelete({ user_id, id: postId })
+    .findOneAndDelete({ user_id, id: todolistid })
     .then((result) => {
       if (result) {
         const { code, message } = responseCodes.DELETED;
@@ -113,7 +116,8 @@ export const deleteTodoList = (req: Request, res: Response) => {
 
 export const updateTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
-  const { user_id, postId, title, desc, end_at, status, priority } = req.body;
+  const { user_id, todolistid, title, desc, end_at, status, priority } =
+    req.body;
   const params: any = { updated_at: new Date(new Date().toUTCString()) };
   if (title) params["title"] = title;
   if (desc) params["desc"] = desc;
@@ -122,7 +126,7 @@ export const updateTodoList = (req: Request, res: Response) => {
   if (priority) params["priority"] = priority;
   todoListModel
     .findOneAndUpdate(
-      { user_id, id: postId },
+      { user_id, id: todolistid },
       {
         $set: params,
       },
@@ -151,12 +155,12 @@ export const updateTodoList = (req: Request, res: Response) => {
 
 export const markAsCompletedTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
-  const { user_id, postId } = req.body;
+  const { user_id, todolistid } = req.body;
   todoListModel
     .findOneAndUpdate(
-      { user_id, id: postId },
+      { user_id, id: todolistid },
       {
-        $set: { user_id, id: postId, status: "Completed" },
+        $set: { user_id, id: todolistid, status: "Completed" },
       },
       { new: true }
     )

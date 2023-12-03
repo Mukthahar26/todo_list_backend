@@ -32,7 +32,7 @@ todoListrouter.use((req: Request | any, res: Response, next) => {
 });
 todoListrouter.post("/createtodolist", createTodoListParams, createTodoList);
 todoListrouter.get("/getalltodolist", getTodoListParams, getAllTodoList);
-todoListrouter.post("/updatetodolist", updateTodoListParams, updateTodoList);
+todoListrouter.put("/updatetodolist", updateTodoListParams, updateTodoList);
 todoListrouter.put(
   "/markascompleted",
   markAsCompletedParams,

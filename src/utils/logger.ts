@@ -1,4 +1,5 @@
 import winston from "winston";
+import { currentUtcTime } from "./utils";
 const { createLogger, format, transports } = winston;
 
 const logFormat = format.printf(({ timestamp, level, message }) => {
@@ -13,7 +14,7 @@ const logger = createLogger({
   ),
   transports: [
     new transports.File({
-      filename: "logs/error.log",
+      filename: `logs/-${currentUtcTime("YYYY-MM-DD")}.log`,
       level: "error",
       format: format.combine(
         format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
@@ -21,7 +22,7 @@ const logger = createLogger({
       ),
     }),
     new transports.File({
-      filename: "logs/app.log",
+      filename: `logs/logger-${currentUtcTime("YYYY-MM-DD")}.log`,
       format: format.combine(
         format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
         logFormat

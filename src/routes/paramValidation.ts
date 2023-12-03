@@ -8,7 +8,7 @@ export const registrationParams = [
 ];
 
 export const loginParams = [
-  body("email").isEmail().notEmpty(),
+  body("email").notEmpty().isEmail(),
   body("password").notEmpty().isString(),
 ];
 
@@ -46,7 +46,7 @@ export const getTodoListParams = [
 
 export const updateTodoListParams = [
   body("user_id").notEmpty().isString(),
-  body("postId").notEmpty().isString(),
+  body("todolistid").notEmpty().isString(),
   body("title").optional().isString(),
   body("desc").optional().isString(),
   body("priority").optional().isString(),
@@ -63,7 +63,7 @@ export const updateTodoListParams = [
 
 export const markAsCompletedParams = [
   body("user_id").notEmpty().isString(),
-  body("postId").notEmpty().isString(),
+  body("todolistid").notEmpty().isString(),
 ];
 
 export const deleteUserParams = [

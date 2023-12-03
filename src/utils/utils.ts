@@ -70,5 +70,5 @@ export const addMinutesToCurrentUtc = (minutes: number) =>
   minutes &&
   dayjs().add(minutes, "minute").utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
 
-export const currentUtcTime = () =>
-  dayjs().utc().format("YYYY-MM-DDTHH:mm:ss[Z]");
+export const currentUtcTime = (format: string = "YYYY-MM-DDTHH:mm:ss[Z]") =>
+  dayjs().utc().format(format);

@@ -1,0 +1,403 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "TODO List APIs",
+    "description": "This Swagger has To Do List API Documentations."
+  },
+  "basePath": "/",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "Enter 'Bearer YOUR_TOKEN' (without quotes) in the Authorization header to authenticate."
+    }
+  },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "paths": {
+    "/userdetails/registration": {
+      "post": {
+        "summary": "User registration",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fullName": {
+                  "example": "string"
+                },
+                "email": {
+                  "example": "email"
+                },
+                "mobileNo": {
+                  "example": "string"
+                },
+                "password": {
+                  "example": "string"
+                },
+                "confirmPassword": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/userdetails/login": {
+      "get": {
+        "summary": "Login with Email id and password",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "string"
+                },
+                "password": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/userdetails/updateUserDetails": {
+      "put": {
+        "summary": "update user data with id",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "fullName": {
+                  "example": "string"
+                },
+                "email": {
+                  "example": "string"
+                },
+                "mobileNo": {
+                  "example": "string"
+                },
+                "id": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/userdetails/refreshToken": {
+      "post": {
+        "summary": "Refresh JWT token with refresh token",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "email": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/userdetails/deleteuser": {
+      "delete": {
+        "summary": "Delete user with user id and email",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "email": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/todolist/createtodolist": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "title": {
+                  "example": "string"
+                },
+                "desc": {
+                  "example": "string"
+                },
+                "end_at": {
+                  "example": "string"
+                },
+                "priority": {
+                  "type": "string",
+                  "description": "Select priority type",
+                  "enum": ["Low", "Medium", "High"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/todolist/getalltodolist": {
+      "get": {
+        "description": "Fetch all todo list with user id",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "offset": {
+                  "example": "number"
+                },
+                "filter.status": {
+                  "example": "string",
+                  "enum": ["Pending", "Completed"]
+                },
+                "filter.priority": {
+                  "example": "string"
+                },
+                "sort": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/todolist/updatetodolist": {
+      "put": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "todolistid": {
+                  "example": "string"
+                },
+                "title": {
+                  "example": "string"
+                },
+                "desc": {
+                  "example": "string"
+                },
+                "end_at": {
+                  "example": "string"
+                },
+                "status": {
+                  "example": "string"
+                },
+                "priority": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/todolist/markascompleted": {
+      "put": {
+        "summary": "Mark todo list as completed.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "todolistid": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/todolist/deletetodolist": {
+      "delete": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "example": "string"
+                },
+                "todolistid": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/notify/restpassword": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    },
+    "/notify/updateNewPassword": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "string"
+                },
+                "otp_token": {
+                  "example": "string"
+                },
+                "otp": {
+                  "example": "string"
+                },
+                "newPassword": {
+                  "example": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SUCCESS"
+          }
+        }
+      }
+    }
+  }
+}
