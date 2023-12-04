@@ -12,6 +12,7 @@ import logger from "../utils/logger";
 export const createTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, title, desc, end_at, priority } = req.body;
+  logger.log("createTodoList - started :", req.body);
   if (isDateUtc(end_at)) {
     const todoList = new todoListModel({
       id: v4(),
@@ -52,6 +53,7 @@ export const getAllTodoList = (req: Request, res: Response) => {
     search,
     filter = {},
   } = req.body;
+  logger.log("getAllTodoList - started :", req.body);
   const { startDate, endDate, status, priority } = filter;
   const params: any = { user_id };
   if (startDate && endDate)
@@ -91,6 +93,7 @@ export const getAllTodoList = (req: Request, res: Response) => {
 export const deleteTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, todolistid } = req.body;
+  logger.log("deleteTodoList - started :", req.body);
   todoListModel
     .findOneAndDelete({ user_id, id: todolistid })
     .then((result) => {
@@ -118,6 +121,7 @@ export const updateTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, todolistid, title, desc, end_at, status, priority } =
     req.body;
+  logger.log("updateTodoList - started :", req.body);
   const params: any = { updated_at: new Date(new Date().toUTCString()) };
   if (title) params["title"] = title;
   if (desc) params["desc"] = desc;
@@ -156,6 +160,7 @@ export const updateTodoList = (req: Request, res: Response) => {
 export const markAsCompletedTodoList = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, todolistid } = req.body;
+  logger.log("markAsCompletedTodoList - started :", req.body);
   todoListModel
     .findOneAndUpdate(
       { user_id, id: todolistid },

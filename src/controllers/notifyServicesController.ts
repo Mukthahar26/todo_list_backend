@@ -10,10 +10,12 @@ import {
 import { SALTCODE, responseCodes } from "../constants/constants";
 import otpRequestModel from "../models/otpRequestModel";
 import bcryptjs from "bcryptjs";
+import logger from "../utils/logger";
 
 export const resetPassword = async (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { email } = req.body;
+  logger.log("resetPassword - started :", req.body);
   const user = await userDetailsModel.findOne({ email });
   const transporter: any = await prepareTransportorEmail();
   if (user) {
@@ -65,6 +67,7 @@ export const resetPassword = async (req: Request, res: Response) => {
 export const updateNewPassword = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { email, otp_token, otp, newPassword } = req.body;
+  logger.log("updateNewPassword - started :", req.body);
   otpRequestModel
     .findOne({
       email,

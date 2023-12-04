@@ -5,16 +5,20 @@ import { formatResponse, validateRequestParams } from "../utils/utils";
 import bcryptjs from "bcryptjs";
 import { v4 } from "uuid";
 import jsonwebtoken from "jsonwebtoken";
+import logger from "../utils/logger";
 
 export const registrationController = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { fullName, email, mobileNo, password, confirmPassword } = req.body;
+  logger.log("registrationController - started :", req.body);
   if (password === confirmPassword) {
     userDetailsModel
       .findOne({ email })
       .then((data) => {
+        logger.log("registrationController - user data :", data);
         if (data) {
           const { code, message } = responseCodes.ALREADYEXIST;
+          logger.log("registrationController - already exist :", code, message);
           res.json(formatResponse({ code, message }));
         } else {
           bcryptjs.hash(password, SALTCODE, (err: any, hashedPass: string) => {
@@ -56,6 +60,7 @@ export const loginController = (req: Request, res: Response) => {
   validateRequestParams(req, res);
 
   const { email, password } = req.body;
+  logger.log("loginController - started :", req.body);
   const notFound = () => {
     const { message, code } = responseCodes.NORECORDSFOUND;
     res.json(formatResponse({ code, message: `User ${message}` }));
@@ -96,8 +101,8 @@ export const loginController = (req: Request, res: Response) => {
 
 export const updateUserDetails = (req: Request, res: Response) => {
   validateRequestParams(req, res);
-
   const { fullName, email, mobileNo, id } = req.body;
+  logger.log("updateUserDetails - started :", req.body);
   userDetailsModel
     .findOneAndUpdate(
       { id },
@@ -117,6 +122,7 @@ export const updateUserDetails = (req: Request, res: Response) => {
 export const deleteUser = (req: Request, res: Response) => {
   validateRequestParams(req, res);
   const { user_id, email } = req.body;
+  logger.log("deleteUser - started :", req.body);
   userDetailsModel
     .findOneAndDelete({ user_id, email })
     .then((result) => {
@@ -142,6 +148,7 @@ export const deleteUser = (req: Request, res: Response) => {
 
 export const refreshTokenDetails = (req: Request, res: Response) => {
   const { refreshToken } = req.body;
+  logger.log("refreshTokenDetails - started :", req.body);
   const userData = jsonwebtoken.verify(refreshToken, "secret") || ({} as any);
   const { email } = userData;
   userDetailsModel
