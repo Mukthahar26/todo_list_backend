@@ -1,13 +1,13 @@
 import express from "express";
 import "dotenv/config";
 import bodyParser from "body-parser";
-import userDetailsRoute from "./src/routes/userDetailsRoute.ts";
-import todoListRoute from "./src/routes/todoListRoute.ts";
-import notifyServicesRoute from "./src/routes/notifyServicesRoute.ts";
+import userDetailsRoute from "./src/routes/userDetailsRoute";
+import todoListRoute from "./src/routes/todoListRoute";
+import notifyServicesRoute from "./src/routes/notifyServicesRoute";
 const swaggerUi = require("swagger-ui-express");
-import "./src/config/database.ts";
+import "./src/config/database";
 import process from "node:process";
-import logger from "./src/utils/logger.ts";
+import logger from "./src/utils/logger";
 
 const app = express();
 app.use(bodyParser.json());

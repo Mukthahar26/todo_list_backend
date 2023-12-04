@@ -1,12 +1,9 @@
 import { Request, Response, Router } from "express";
-import {
-  resetPaswordParam,
-  updateNewPasswordParams,
-} from "./paramValidation.ts";
+import { resetPaswordParam, updateNewPasswordParams } from "./paramValidation";
 import {
   updateNewPassword,
   resetPassword,
-} from "../controllers/notifyServicesController.ts";
+} from "../controllers/notifyServicesController";
 import jsonwebtoken from "jsonwebtoken";
 
 const notifyServicesRouter = Router();

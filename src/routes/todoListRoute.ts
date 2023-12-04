@@ -5,14 +5,14 @@ import {
   getTodoListParams,
   markAsCompletedParams,
   updateTodoListParams,
-} from "./paramValidation.ts";
+} from "./paramValidation";
 import {
   createTodoList,
   deleteTodoList,
   getAllTodoList,
   markAsCompletedTodoList,
   updateTodoList,
-} from "../controllers/todoListController.ts";
+} from "../controllers/todoListController";
 import jsonwebtoken from "jsonwebtoken";
 
 const todoListrouter = Router();

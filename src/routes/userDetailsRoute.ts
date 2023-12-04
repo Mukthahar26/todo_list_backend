@@ -5,13 +5,13 @@ import {
   refreshTokenParams,
   registrationParams,
   updateUserParams,
-} from "./paramValidation.ts";
+} from "./paramValidation";
 import {
   registrationController,
   loginController,
   updateUserDetails,
   deleteUser,
-} from "../controllers/userControllers.ts";
+} from "../controllers/userControllers";
 
 const router = Router();
 
