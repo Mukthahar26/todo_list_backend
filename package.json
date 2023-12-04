@@ -5,7 +5,7 @@
   "main": "main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -x ts-node src/main.ts"
+    "start": "nodemon -x ts-node app.ts"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.5",
