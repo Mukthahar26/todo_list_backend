@@ -5,7 +5,10 @@
   "main": "app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -x ts-node app.ts"
+    "start": "node ./dist/index.js",
+    "gcp-build": "tsc -p .",
+    "nodemon": "nodemon -x ts-node app.ts",
+    "postinstall": "tsc"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.5",
@@ -23,6 +26,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "dateformat": "^5.0.3",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
