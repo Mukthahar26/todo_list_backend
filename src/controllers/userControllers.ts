@@ -186,3 +186,12 @@ export const refreshTokenDetails = (req: Request, res: Response) => {
       );
     });
 };
+
+export const testingAPI = (req: Request, res: Response) => {
+  res.json({ data: "testingAPItestingAPI" });
+};
+
+export const testingAPIParam = (req: Request, res: Response) => {
+  const { user } = req.body;
+  res.json({ data: "testingAPIParam :" + user });
+};

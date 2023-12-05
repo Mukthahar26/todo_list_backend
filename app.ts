@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use("/userdetails", userDetailsRoute);
 app.use("/todolist", todoListRoute);
 app.use("/notify", notifyServicesRoute);
+app.use("tester", userDetailsRoute);
 
 const outputFile = "./swagger.json";
 app.use(
@@ -26,11 +27,7 @@ process.on("uncaughtException", (err, origin) => {
   logger.error(`Caught exception: ${err}\n` + `Exception origin: ${origin}`);
 });
 
-app.use("/", (_, res) => {
-  res.send("Welcome to the Home Page");
-});
-
-app.use("/*", (_, response) => {
+app.use("*", (_, response) => {
   response.status(404);
   response.end("Request URL not found.");
 });

@@ -39,6 +39,7 @@ export const updateUserParams = [
   body("mobileNo").notEmpty().isString(),
   body("id").notEmpty().isString(),
 ];
+export const userpram = [body("user").notEmpty().isString()];
 
 export const createTodoListParams = [
   body("user_id").notEmpty().isString(),
