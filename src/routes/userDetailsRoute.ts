@@ -15,7 +15,7 @@ import {
 
 const router = Router();
 
-router.use((req: Request | any, res: Response, next) => {
+router.use((_, __, next) => {
   next();
 });
 router.post("/registration", registrationParams, registrationController);

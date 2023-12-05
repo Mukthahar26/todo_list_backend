@@ -1,4 +1,8 @@
+import { NextFunction, Request, Response } from "express";
 import { body } from "express-validator";
+import joi from "joi";
+import { formatResponse } from "../utils/utils";
+import { responseCodes } from "../constants/constants";
 
 export const registrationParams = [
   body("fullName").notEmpty().notEmpty().isString(),
@@ -7,10 +11,26 @@ export const registrationParams = [
   body("mobileNo").notEmpty().isString(),
 ];
 
-export const loginParams = [
-  body("email").notEmpty().isEmail(),
-  body("password").notEmpty().isString(),
-];
+export const loginParams = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const schemas = joi.object().keys({
+    email: joi.string().email().required(),
+    password: joi.string().required(),
+  });
+  const data = schemas.validate(req.body);
+  const { error } = data;
+  console.log("data :", data);
+  if (error) {
+    const { code, message } = responseCodes.ERROR;
+    res.status(400).json(formatResponse({ code, message, data: error }));
+  }
+  {
+    next();
+  }
+};
 
 export const updateUserParams = [
   body("fullName").notEmpty().notEmpty().isString(),

@@ -57,8 +57,6 @@ export const registrationController = (req: Request, res: Response) => {
 };
 
 export const loginController = (req: Request, res: Response) => {
-  validateRequestParams(req, res);
-
   const { email, password } = req.body;
   logger.log("loginController - started :", req.body);
   const notFound = () => {

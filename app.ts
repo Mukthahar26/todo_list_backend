@@ -30,11 +30,11 @@ app.use("/", (_, res) => {
   res.send("Welcome to the Home Page");
 });
 
-app.use("*", (_, response) => {
+app.use("/*", (_, response) => {
   response.status(404);
   response.end("Request URL not found.");
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(8080, () => {
   console.log("welcome to todo List backend");
 });
