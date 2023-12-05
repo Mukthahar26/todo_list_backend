@@ -18,15 +18,16 @@ import {
 
 const router = Router();
 
-router.use((_, __, next) => {
-  next();
-});
-router.post("/registration", registrationParams, registrationController);
-router.get("/login", loginParams, loginController);
-router.put("/updateUserDetails", updateUserParams, updateUserDetails);
-router.post("/refreshToken", refreshTokenParams, deleteUser);
-router.delete("/deleteuser", deleteUserParams, deleteUser);
-router.get("/testing", testingAPI);
-router.get("/tester", userpram, testingAPIParam);
+router
+  .use((_, __, next) => {
+    next();
+  })
+  .post("/registration", registrationParams, registrationController)
+  .get("/login", loginParams, loginController)
+  .put("/updateUserDetails", updateUserParams, updateUserDetails)
+  .post("/refreshToken", refreshTokenParams, deleteUser)
+  .delete("/deleteuser", deleteUserParams, deleteUser)
+  .get("/testing", testingAPI)
+  .get("/tester", userpram, testingAPIParam);
 
 export default router;
