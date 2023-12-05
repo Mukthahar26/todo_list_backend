@@ -3,6 +3,7 @@ import { body } from "express-validator";
 import joi from "joi";
 import { formatResponse } from "../utils/utils";
 import { responseCodes } from "../constants/constants";
+import logger from "../utils/logger";
 
 export const registrationParams = [
   body("fullName").notEmpty().notEmpty().isString(),
@@ -22,7 +23,7 @@ export const loginParams = (
   });
   const data = schemas.validate(req.body);
   const { error } = data;
-  console.log("data :", data);
+  logger.log("data :", data);
   if (error) {
     const { code, message } = responseCodes.ERROR;
     res.status(400).json(formatResponse({ code, message, data: error }));
