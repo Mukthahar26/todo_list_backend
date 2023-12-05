@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import {
   deleteUserParams,
   loginParams,
@@ -19,7 +19,7 @@ import {
 const router = Router();
 
 router
-  .use((_, __, next) => {
+  .use((_: Request, __: Response, next: NextFunction) => {
     next();
   })
   .post("/registration", registrationParams, registrationController)

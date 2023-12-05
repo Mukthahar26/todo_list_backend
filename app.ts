@@ -8,36 +8,18 @@ const swaggerUi = require("swagger-ui-express");
 import "./src/config/database";
 import process from "node:process";
 import logger from "./src/utils/logger";
-import { loginController } from "./src/controllers/userControllers";
 
 const app = express();
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+
 app.use(bodyParser.json());
 app.use("/userdetails", userDetailsRoute);
 app.use("/todolist", todoListRoute);
 app.use("/notify", notifyServicesRoute);
-app.use("tester", userDetailsRoute);
-app.use("/userdata/login", loginController);
-app.use("/login", loginController);
-app.use("/thisroot", (_: any, res: any) => {
-  res.json({ data: "tis is responer" });
-});
-app.get("/ddafa", (_: any, res: any) => {
-  res.json({ data: "tis is responer" });
-});
-
-app.use("/qqqq", (_: any, res: any) => {
-  res.json({ data: "tis is responer" });
-});
-app.get("/wwwww", (_: any, res: any) => {
-  res.json({ data: "tis is responer" });
-});
-
-app.use("/rrr", (_: any, res: any) => {
-  res.send("tis is djfkjkals");
-});
-app.get("/eeee", (_: any, res: any) => {
-  res.send("tis is nmzsnn");
-});
 
 const outputFile = "./swagger.json";
 app.use(
