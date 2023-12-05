@@ -17,6 +17,10 @@ app.use("/todolist", todoListRoute);
 app.use("/notify", notifyServicesRoute);
 app.use("tester", userDetailsRoute);
 app.use("/userdata/login", loginController);
+app.use("/login", loginController);
+app.use("thisroot", (_, res) => {
+  res.json({ data: "tis is responer" });
+});
 
 const outputFile = "./swagger.json";
 app.use(
