@@ -18,11 +18,25 @@ app.use("/notify", notifyServicesRoute);
 app.use("tester", userDetailsRoute);
 app.use("/userdata/login", loginController);
 app.use("/login", loginController);
-app.use("thisroot", (_, res) => {
+app.use("/thisroot", (_: any, res: any) => {
   res.json({ data: "tis is responer" });
 });
-app.get("ddafa", (_, res) => {
+app.get("/ddafa", (_: any, res: any) => {
   res.json({ data: "tis is responer" });
+});
+
+app.use("/qqqq", (_: any, res: any) => {
+  res.json({ data: "tis is responer" });
+});
+app.get("/wwwww", (_: any, res: any) => {
+  res.json({ data: "tis is responer" });
+});
+
+app.use("/rrr", (_: any, res: any) => {
+  res.send("tis is djfkjkals");
+});
+app.get("/eeee", (_: any, res: any) => {
+  res.send("tis is nmzsnn");
 });
 
 const outputFile = "./swagger.json";
@@ -36,10 +50,10 @@ process.on("uncaughtException", (err, origin) => {
   logger.error(`Caught exception: ${err}\n` + `Exception origin: ${origin}`);
 });
 
-app.use("*", (_, response) => {
-  response.status(404);
-  response.end("Request URL not found.");
-});
+// app.use("*", (_, response) => {
+//   response.status(404);
+//   response.end("Request URL not found.");
+// });
 
 app.listen(8080, () => {
   console.log("welcome to todo List backend");
