@@ -21,6 +21,9 @@ app.use("/login", loginController);
 app.use("thisroot", (_, res) => {
   res.json({ data: "tis is responer" });
 });
+app.get("ddafa", (_, res) => {
+  res.json({ data: "tis is responer" });
+});
 
 const outputFile = "./swagger.json";
 app.use(
