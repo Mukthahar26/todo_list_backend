@@ -8,6 +8,7 @@ const swaggerUi = require("swagger-ui-express");
 import "./src/config/database";
 import process from "node:process";
 import logger from "./src/utils/logger";
+import { loginController } from "./src/controllers/userControllers";
 
 const app = express();
 app.use(bodyParser.json());
@@ -15,6 +16,7 @@ app.use("/userdetails", userDetailsRoute);
 app.use("/todolist", todoListRoute);
 app.use("/notify", notifyServicesRoute);
 app.use("tester", userDetailsRoute);
+app.use("/userdata/login", loginController);
 
 const outputFile = "./swagger.json";
 app.use(
